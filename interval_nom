@@ -1,0 +1,28 @@
+
+/**
+     * Vérifie que le nom est bien dans l'intervalle défini
+     * 
+     * @param type $interval           Objet définissant l'intervalle
+     * @param type $name               Nom
+     */
+public function checkNameInInterval($interval, $name) {
+         // Défini l'intervalle
+        $start = $interval->getStart(); // Désigne les premières lettres des noms. Début de l'intervalle
+        $end = $interval->getEnd();     // Désigne les premières lettres des noms. Fin de l'intervalle
+        
+        // Vérifie caractère par caractère que le nom commence par des caractères supérieurs aux début de l'intervalle
+        for($i=0; $i<strlen($start); $i++) {
+            if ($name[$i] < $start[$i]) {
+                return false;
+            }
+        }
+
+        // Vérifie caractère par caractère que le nom commence par des caractères inférieurs à la fin de l'intervalle
+        for($i=0; $i<strlen($end); $i++) {
+            if ($end[$i] < $name[$i]) {
+                return false;
+            }
+        }
+
+        return true;
+}
