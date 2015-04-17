@@ -1,0 +1,6 @@
+TO MAKE SURE THE ORIGINAL HIDDEN DROPDOWN ONLY HAS THE CURRENT OPTION SELECTED...
+
+In the selectbox.js, add this
+    $(target).find("option").attr("selected", FALSE);
+right before
+    $(target).find("option[value='" + value + "']").attr("selected", TRUE);
