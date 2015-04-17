@@ -1,5 +1,10 @@
 <?php
-// OUvre le fichier
+/**
+* Prérequis :
+*	1. Récupérer le CSV sur http://sql.sh/736-base-donnees-villes-francaises
+*/
+
+// Ouvre le fichier
 $handler = fopen("villes_france.csv", "r");
 
 // Début de la requête
