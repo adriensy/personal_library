@@ -1,0 +1,45 @@
+<?php
+// OUvre le fichier
+$handler = fopen("villes_france.csv", "r");
+
+// Début de la requête
+$query = "INSERT INTO ref_commune (`zipcode`, `name`) VALUES ";
+
+// Forme la requête pour chaque ligne du CSV
+while($line = fgetcsv($handler)) {
+	$multipleZipcode = explode('-', $line[8]);
+	
+	// Vérifie si la ville actuelle contient plusieurs code postaux
+	if (empty($multipleZipcode)) {
+		// Si un seul code postal : complète la requête avec la chaîne
+		$query .= sprintf("(\"%s\", \"%s\"),", $line[8], $line[3]);
+	} else {
+		// Sinon on itère sur chacun d'eux pour créer une nouvelle ligne dans la table (champs zipcode limité à 8caractères)
+		foreach ($multipleZipcode as $zipcode) {
+			$query .= sprintf("(\"%s\", \"%s\"),", $zipcode, $line[3]);
+		}
+	}
+}
+
+// Suppression de la dernière virgule
+$query = substr($query, 0, -1);
+
+$query .= ";";
+
+// Création du fichier SQL
+$file = fopen("ref_commune.sql", "a+");
+fwrite($file, $query);
+fclose($file);
+
+// FIN
+die();
+
+// Code de test d'import
+$pdo = new PDO("mysql:dbname=test;host=127.0.0.1", "root", "");
+$result = $pdo->exec($query);
+
+if ($result) {
+	var_dump($result);
+} else {
+	var_dump($pdo->errorInfo());
+}
