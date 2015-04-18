@@ -1,0 +1,133 @@
+var exceptions = {
+    0: 'zéro',
+    11: 'onze',
+    12: 'douze',
+    13: 'treize',
+    14: 'quatorze',
+    15: 'quinze',
+    16: 'seize',
+    71: 'soixante-et-onze',
+    72: 'soixante-douze',
+    73: 'soixante-treize',
+    74: 'soixante-quatorze',
+    75: 'soixante-quinze',
+    76: 'soixante-seize',
+    81: 'quatre-vingt-un',
+    91: 'quatre-vingt-onze',
+    92: 'quatre-vingt-douze',
+    93: 'quatre-vingt-treize',
+    94: 'quatre-vingt-quatorze',
+    95: 'quatre-vingt-quinze',
+    96: 'quatre-vingt-seize',
+};
+
+var dizaines = {
+    1: 'dix',
+    2: 'vingt',
+    3: 'trente',
+    4: 'quarante',
+    5: 'cinquante',
+    6: 'soixante',
+    7: 'soixante-dix',
+    8: 'quatre-vingt',
+    9: 'quatre-vingt-dix'
+};
+
+var unites = {
+    1: 'un',
+    2: 'deux',
+    3: 'trois',
+    4: 'quatre',
+    5: 'cinq',
+    6: 'six',
+    7: 'sept',
+    8: 'huit',
+    9: 'neuf'
+};
+
+var centaines = {
+    1: 'cent',
+    2: 'deux-cent',
+    3: 'trois-cent',
+    4: 'quatre-cent',
+    5: 'cinq-cent',
+    6: 'six-cent',
+    7: 'sept-cent',
+    8: 'huit-cent',
+    9: 'neuf-cent'
+};
+
+while (true) {
+    var number = "";
+    var message = "Votre nombre en toute lettre est : ";
+    var numberLength = 0;
+    
+    //L'utilisateur est invité à entrer un nombre entre 0 et 999.
+    number = prompt('Veuillez entrer un nombre entre 0 et 999 s\'il vous plaît : ');
+    checkExceptionNumber = parseInt(number);
+    
+    if (!(0 <= checkExceptionNumber && checkExceptionNumber <= 999)) {
+        message = "Votre nombre doit être compris entre 0 et 999";
+    } else if (exceptions.hasOwnProperty(checkExceptionNumber) > 0) {
+        message += exceptions[checkExceptionNumber];
+    } else {
+        numberLength = number.length;
+        
+        switch(numberLength) {
+            case 1:
+                message += getUniteFromInt(parseInt(number));
+                break;
+            case 2:
+                if (parseInt(number[0]) > 0) {
+                    message += getDizaineFromInt(parseInt(number[0])) + '-';
+                }
+                
+                if (parseInt(number[1]) > 0) {
+                    message += getUniteFromInt(parseInt(number[1]));
+                } else {
+                    message = message.substr(0, message.length-1);
+                }
+                
+                break;
+            case 3:
+                if (parseInt(number[0]) > 0) {
+                    message += getCentaineFromInt(parseInt(number[0])) + '-';
+                }
+                
+                var checkExceptionDizaine = parseInt(number.substr(1));
+                
+                if (exceptions.hasOwnProperty(checkExceptionDizaine) > 0) {
+                    message += exceptions[checkExceptionDizaine];
+                } else {
+                    if (parseInt(number[1]) > 0) {
+                        message += getDizaineFromInt(parseInt(number[1])) + '-';
+                    }
+                    
+                    if (parseInt(number[2]) > 0) {
+                        message += getUniteFromInt(parseInt(number[2]));
+                    } else {
+                        message = message.substr(0, message.length-1);
+                    }
+                }
+                
+                break;
+        }
+    }
+    
+    alert(message);
+}
+
+function getUniteFromInt(theInteger)
+{
+    return unites[theInteger];
+}
+
+function getDizaineFromInt(theInteger)
+{
+    return dizaines[theInteger];
+}
+
+function getCentaineFromInt(theInteger)
+{
+    return centaines[theInteger];
+}
