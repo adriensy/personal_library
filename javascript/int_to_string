@@ -66,6 +66,8 @@ while (true) {
     number = prompt('Veuillez entrer un nombre entre 0 et 999 s\'il vous plaît : ');
     checkExceptionNumber = parseInt(number);
     
+    if (!number) break;
+    
     if (!(0 <= checkExceptionNumber && checkExceptionNumber <= 999)) {
         message = "Votre nombre doit être compris entre 0 et 999";
     } else if (exceptions.hasOwnProperty(checkExceptionNumber) > 0) {
